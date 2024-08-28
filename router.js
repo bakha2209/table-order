@@ -33,4 +33,20 @@ router.delete(
   cartController.removeCartItem
 );
 
+//order related routers
+router.post(
+  "/order",
+  memberController.retrieveAuthMember,
+  orderController.placeOrder
+);
+router.put(
+  "/order/updateOrder",
+  memberController.retrieveAuthMember,
+  orderController.updateOrderStatus
+);
+router.get(
+  "/order/history",
+  memberController.retrieveAuthMember,
+  orderController.orderHistory
+);
 module.exports = router;
