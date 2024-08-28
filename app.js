@@ -1,18 +1,17 @@
 console.log("Starting Web Server");
 const express = require("express");
 const app = express();
+const router = require("./router");
+const cookieParser = require("cookie-parser")
 
 
-
-//MongoDB
-const db = require("./server").db();
-const mongodb = require("mongodb")
 
 //  Introduction code
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+app.use(cookieParser())
 
 //Routing code
-
-module.exports
+app.use("/", router)
+module.exports=app

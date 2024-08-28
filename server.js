@@ -1,22 +1,22 @@
 const dotenv = require("dotenv");
 dotenv.config();
-
+const Menu=require("./schema/menuSchema")
 
 
 const http = require("http");
-const mongodb = require("mongodb")
+const mongoose = require("mongoose")
 
 
 const connectionString = process.env.MONGO_URL;
-mongodb.connect(connectionString,{
+mongoose.connect(connectionString,{
   useNewUrlParser: true, 
   useUnifiedTopology: true,
-}, (err,client)=> {
+}, (err,goose)=> {
 
     if(err) console.log("Error on connection MongoDB");
     else {
         console.log("MongoDB connection succeed")
-        module.exports = client;
+        
         
         const app = require("./app")
         const server = http.createServer(app);
@@ -26,3 +26,20 @@ mongodb.connect(connectionString,{
         });  
     }
 });
+
+const seedMenu = async () => {
+  const sampleMenus = [
+    { name: "Burger", description: "A juicy burger with cheese and lettuce", price: 5.99 },
+    { name: "Pizza", description: "A large pizza with pepperoni and cheese", price: 12.99 },
+    { name: "Salad", description: "A healthy green salad with vinaigrette", price: 7.99 },
+  ];
+
+  try {
+    await Menu.insertMany(sampleMenus);
+    console.log('Sample menu items inserted');
+    mongoose.connection.close();
+  } catch (err) {
+    console.error(err);
+  }
+};
+//seedMenu();
